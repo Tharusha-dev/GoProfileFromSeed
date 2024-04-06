@@ -1,4 +1,4 @@
-package GetProfileFromSeed
+package GoProfileFromSeed
 
 import (
 	"fmt"

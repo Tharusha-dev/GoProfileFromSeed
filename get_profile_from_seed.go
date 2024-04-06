@@ -1,4 +1,4 @@
-package GetProfileFromSeed
+package GoProfileFromSeed
 
 import (
 	"bufio"
@@ -19,7 +19,7 @@ type Profile struct {
 	seed      string
 }
 
-func GetProfileFromSeed() Profile {
+func GetProfileFromSeed(seed string) Profile {
 
 	asciiPoints := make(map[string]int)
 	asciiPoints["asciiLowerCaseLetterStarts"] = 97
@@ -39,7 +39,7 @@ func GetProfileFromSeed() Profile {
 
 	// var fnameFile string
 
-	seed := getInput()
+	seed = getInput(seed)
 
 	region := determineRegion(int(seed[0]), regions[:], asciiPoints)
 
@@ -147,28 +147,28 @@ func getFirstNameFile(gender int, firstNameDeterminingLetter string, region stri
 
 }
 
-func getInput() string {
+func getInput(seed string) string {
 
-	reader := bufio.NewReader(os.Stdin)
+	// reader := bufio.NewReader(os.Stdin)
 
-	fmt.Println("Enter seed:")
+	// fmt.Println("Enter seed:")
 
-	read, err_read := reader.ReadString('\n')
+	// read, err_read := reader.ReadString('\n')
 
-	if err_read != nil {
-		log.Printf("could not open the file: %v", err_read)
-	}
+	// if err_read != nil {
+	// 	log.Printf("could not open the file: %v", err_read)
+	// }
 
-	read = strings.TrimSpace(read)
+	seed = strings.TrimSpace(seed)
 
-	inputError := validateInput(read)
+	inputError := validateInput(seed)
 
 	if inputError != nil {
 		log.Println(inputError)
-		getInput()
+		getInput(seed)
 
 	} else {
-		return read
+		return seed
 	}
 
 	return ""
