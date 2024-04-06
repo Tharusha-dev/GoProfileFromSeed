@@ -6,9 +6,10 @@ import (
 	"strings"
 )
 
-func UpdateSVG(seed string, firstName string) string {
+func GenerateProfileImage(profile Profile, fileName string, primaryColor string, secondaryColor string) string {
 
-	const svgHeaders = `<svg width="250" height="250" xmlns="http://www.w3.org/2000/svg"><rect width="250" height="250" fill="white"/><g fill="white">`
+	svgHeaders := fmt.Sprintf(`<svg width="250" height="250" xmlns="http://www.w3.org/2000/svg"><rect width="250" height="250" fill="%s"/><g fill="%s">`, primaryColor, primaryColor)
+
 	const svgFooter = `</g></svg>`
 	const startX = 50
 	const startY = 50
@@ -17,7 +18,7 @@ func UpdateSVG(seed string, firstName string) string {
 	builder.WriteString(svgHeaders)
 
 	// Open the file for writing
-	file, errs := os.Create(fmt.Sprintf(`%s.svg`, firstName))
+	file, errs := os.Create(fmt.Sprintf(`%s.svg`, fileName))
 	if errs != nil {
 		fmt.Println("Failed to create file:", errs)
 
@@ -28,9 +29,9 @@ func UpdateSVG(seed string, firstName string) string {
 
 	for i := 0; i < 5; i++ {
 
-		builder.WriteString(fmt.Sprintf(`<rect x="%s" y="%s" width="50" height="50" fill="%s"/>`, fmt.Sprint(x), fmt.Sprint(y), "#FF0000"))
+		builder.WriteString(fmt.Sprintf(`<rect x="%s" y="%s" width="50" height="50" fill="%s"/>`, fmt.Sprint(x), fmt.Sprint(y), secondaryColor))
 
-		x_shift, y_shift := determineShift(int(seed[i]))
+		x_shift, y_shift := determineShift(int(profile.seed[i]))
 
 		if x+x_shift < 0 {
 			x += 100

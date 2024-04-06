@@ -16,9 +16,10 @@ type Profile struct {
 	username  string
 	email     string
 	address   string
+	seed      string
 }
 
-func main() {
+func GetProfileFromSeed() Profile {
 
 	asciiPoints := make(map[string]int)
 	asciiPoints["asciiLowerCaseLetterStarts"] = 97
@@ -33,7 +34,6 @@ func main() {
 
 	const userNameFile = "data/common_templates/usernames.txt"
 	const emailFormatsFile = "data/common_templates/emails.txt"
-	const usAddressesFile = "data/by_region/US/addresses/addresses.txt"
 
 	regions := [4]string{"US", "UK", "LK", "AUS"}
 
@@ -70,22 +70,9 @@ func main() {
 
 	username := getFormattedString(usernameOffset, firstName, lastName, seed, userNameFile)
 
-	generatedProfile := Profile{firstName: firstName, lastName: lastName, username: username, email: email, address: address}
+	generatedProfile := Profile{firstName: firstName, lastName: lastName, username: username, email: email, address: address, seed: seed}
 
-	UpdateSVG(seed, firstName)
-
-	generatedProfile.printDetails()
-	fmt.Println(region)
-
-}
-
-func (profile Profile) printDetails() {
-
-	log.Println(profile.firstName)
-	log.Println(profile.lastName)
-	log.Println(profile.email)
-	log.Println(profile.address)
-	log.Println(profile.username)
+	return generatedProfile
 
 }
 
