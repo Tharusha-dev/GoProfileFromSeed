@@ -11,12 +11,12 @@ import (
 )
 
 type Profile struct {
-	firstName string
-	lastName  string
-	username  string
-	email     string
-	address   string
-	seed      string
+	FirstName string
+	LastName  string
+	Username  string
+	Email     string
+	Address   string
+	Seed      string
 }
 
 func GetProfileFromSeed(seed string) Profile {
@@ -70,7 +70,7 @@ func GetProfileFromSeed(seed string) Profile {
 
 	username := getFormattedString(usernameOffset, firstName, lastName, seed, userNameFile)
 
-	generatedProfile := Profile{firstName: firstName, lastName: lastName, username: username, email: email, address: address, seed: seed}
+	generatedProfile := Profile{FirstName: firstName, LastName: lastName, Username: username, Email: email, Address: address, Seed: seed}
 
 	return generatedProfile
 

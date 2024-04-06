@@ -31,7 +31,7 @@ func GenerateProfileImage(profile Profile, fileName string, primaryColor string,
 
 		builder.WriteString(fmt.Sprintf(`<rect x="%s" y="%s" width="50" height="50" fill="%s"/>`, fmt.Sprint(x), fmt.Sprint(y), secondaryColor))
 
-		x_shift, y_shift := determineShift(int(profile.seed[i]))
+		x_shift, y_shift := determineShift(int(profile.Seed[i]))
 
 		if x+x_shift < 0 {
 			x += 100
