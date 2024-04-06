@@ -1,4 +1,4 @@
-package GoProfileFromSeed
+package main
 
 import (
 	"bufio"
@@ -15,8 +15,14 @@ type Profile struct {
 	LastName  string
 	Username  string
 	Email     string
+	Region    string
 	Address   string
 	Seed      string
+}
+
+func main() {
+	p := GetProfileFromSeed("00000")
+	fmt.Println(p.FirstName)
 }
 
 func GetProfileFromSeed(seed string) Profile {
@@ -70,7 +76,7 @@ func GetProfileFromSeed(seed string) Profile {
 
 	username := getFormattedString(usernameOffset, firstName, lastName, seed, userNameFile)
 
-	generatedProfile := Profile{FirstName: firstName, LastName: lastName, Username: username, Email: email, Address: address, Seed: seed}
+	generatedProfile := Profile{FirstName: firstName, LastName: lastName, Username: username, Email: email, Region: region, Address: address, Seed: seed}
 
 	return generatedProfile
 
@@ -133,12 +139,12 @@ func getFirstNameFile(gender int, firstNameDeterminingLetter string, region stri
 
 	if gender == 1 {
 		log.Println(strings.ToUpper(firstNameDeterminingLetter) + ".txt" + "  Female")
-		firstNameFile = "data/by_region/" + region + "/names/first_names/female_" + strings.ToUpper(firstNameDeterminingLetter) + ".txt"
+		firstNameFile = "data/by_region/" + region + "/names/first_names/by_gender/female_" + strings.ToUpper(firstNameDeterminingLetter) + ".txt"
 		log.Println(firstNameFile)
 
 	} else {
 		log.Println(strings.ToUpper(firstNameDeterminingLetter) + ".txt" + "  Male")
-		firstNameFile = "data/by_region/" + region + "/names/first_names/male_" + strings.ToUpper(firstNameDeterminingLetter) + ".txt"
+		firstNameFile = "data/by_region/" + region + "/names/first_names/by_gender/male_" + strings.ToUpper(firstNameDeterminingLetter) + ".txt"
 		log.Println(firstNameFile)
 
 	}
