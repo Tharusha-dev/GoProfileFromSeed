@@ -1,4 +1,3 @@
-
 # GoProfileFromSeed 🕵️🏾‍♂️
 ## A Go library to generate user profiles based on a seed.
 
@@ -14,6 +13,8 @@ A `Profile` is a structure with the following fields
 -  **Seed**
 
 **You can also generate a unique profile image for each profile.**
+
+A `seed` is a 5 character string. Each character can a number or a lower case or upper case English letter.
 
 ## How it works 🛠️
 The following image shows how each field is determined :
@@ -32,10 +33,11 @@ the second non-numerical character after the second character of the seed or if 
 
 **Username and email** is generated using templates determined in the common_templates directory in the data.
 
-## Profile Image 
-Each profile image is a 250 * 250 pixel image. This square is divided into 25, 50*50 squares and according to the image below, five or fewer squares are painted based on each character of the seed.
 
-![enter image description here](https://i.ibb.co/BfMqy23/profile-img.png)
+## Profile Image 
+Each profile image is a 250 * 250 pixel image. This square is divided into 25, 50*50 squares and according to the image below, five or fewer squares are painted based on each character of the seed starting from the middle square.
+
+![enter image description here](https://i.ibb.co/Y8F2DXF/profile-img.png)
 Examples:
 ![enter image description here](https://i.ibb.co/D83r0rj/examples.png)
 ## Data files
@@ -49,5 +51,5 @@ Currently, the data files include common names and addresses of these regions:
 
 Information on how those data is gathered can be found in info.txt files inside each folder.
 
-## Examples
-
+## Documentation
+https://pkg.go.dev/github.com/Tharusha-dev/GoProfileFromSeed

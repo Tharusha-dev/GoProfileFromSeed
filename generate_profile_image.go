@@ -1,4 +1,4 @@
-package main
+package GoProfileFromSeed
 
 import (
 	"fmt"
@@ -6,7 +6,9 @@ import (
 	"strings"
 )
 
-func GenerateProfileImage(profile Profile, fileName string, primaryColor string, secondaryColor string) string {
+// Each profile image is a 250 * 250 pixel SVG.
+// For more info https://github.com/Tharusha-dev/GoProfileFromSeed?tab=readme-ov-file#profile-image
+func GenerateProfileImage(profile Profile, fileName string, filePath string, primaryColor string, secondaryColor string) string {
 
 	svgHeaders := fmt.Sprintf(`<svg width="250" height="250" xmlns="http://www.w3.org/2000/svg"><rect width="250" height="250" fill="%s"/><g fill="%s">`, primaryColor, primaryColor)
 
@@ -18,7 +20,7 @@ func GenerateProfileImage(profile Profile, fileName string, primaryColor string,
 	builder.WriteString(svgHeaders)
 
 	// Open the file for writing
-	file, errs := os.Create(fmt.Sprintf(`%s.svg`, fileName))
+	file, errs := os.Create(fmt.Sprintf(`%s/%s.svg`, filePath, fileName))
 	if errs != nil {
 		fmt.Println("Failed to create file:", errs)
 

@@ -1,4 +1,13 @@
-package main
+// GoProfileFromSeed generates user profiles based on a seed.
+// A Profile is a structure with:
+//   - First Name
+//   - Last Name
+//     -Username
+//     -Email
+//     -Region
+//     -Address
+//     -seed
+package GoProfileFromSeed
 
 import (
 	"bufio"
@@ -6,6 +15,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"runtime"
 	"strings"
 	"unicode"
 )
@@ -20,11 +30,8 @@ type Profile struct {
 	Seed      string
 }
 
-func main() {
-	p := GetProfileFromSeed("00000")
-	fmt.Println(p.FirstName)
-}
-
+// A seed is a 5 character string. Each character can a number or a lower case or upper case English letter. This function returns a Profile struct.
+// For more info https://github.com/Tharusha-dev/GoProfileFromSeed?tab=readme-ov-file#how-it-works-%EF%B8%8F
 func GetProfileFromSeed(seed string) Profile {
 
 	asciiPoints := make(map[string]int)
@@ -36,8 +43,6 @@ func GetProfileFromSeed(seed string) Profile {
 	asciiPoints["asciiNumberEnds"] = 57
 	asciiPoints["asciiNumberToUpperCaseLetterOffset"] = 17
 
-	fmt.Println(asciiPoints)
-
 	const userNameFile = "data/common_templates/usernames.txt"
 	const emailFormatsFile = "data/common_templates/emails.txt"
 
@@ -46,6 +51,12 @@ func GetProfileFromSeed(seed string) Profile {
 	// var fnameFile string
 
 	seed = getInput(seed)
+
+	dataFileLocation, err := getDataFileLocation()
+
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	region := determineRegion(int(seed[0]), regions[:], asciiPoints)
 
@@ -58,19 +69,19 @@ func GetProfileFromSeed(seed string) Profile {
 	// 0 => Male & 1 => Female
 	gender := determineGender(genderDeterminingLetter)
 
-	firstNameFile := getFirstNameFile(gender, firstNameDeterminingLetter, region)
+	firstNameFile := getFirstNameFile(gender, firstNameDeterminingLetter, region, dataFileLocation)
 
 	firstNameOffset, lastNameOffset, addressOffset, emailOffset, usernameOffset := getOffsets(seed, asciiPoints)
 
 	firstName := getLineAtIndex(firstNameOffset, firstNameFile)
 
-	lastNameFile := "data/by_region/" + region + "/names/last_names/lname_" + strings.ToUpper(lastNameDeterminingLetter) + ".txt"
+	lastNameFile := dataFileLocation + "/by_region/" + region + "/names/last_names/lname_" + strings.ToUpper(lastNameDeterminingLetter) + ".txt"
 
 	lastName := getLineAtIndex(lastNameOffset, lastNameFile)
 
 	email := getFormattedString(emailOffset, firstName, lastName, seed, emailFormatsFile)
 
-	addressFile := "data/by_region/" + region + "/addresses/addresses.txt"
+	addressFile := dataFileLocation + "/by_region/" + region + "/addresses/addresses.txt"
 
 	address := getLineAtIndex(addressOffset, addressFile)
 
@@ -79,6 +90,16 @@ func GetProfileFromSeed(seed string) Profile {
 	generatedProfile := Profile{FirstName: firstName, LastName: lastName, Username: username, Email: email, Region: region, Address: address, Seed: seed}
 
 	return generatedProfile
+
+}
+
+func getDataFileLocation() (string, error) {
+	_, filename, _, ok := runtime.Caller(0)
+	if !ok {
+		return "", errors.New("Can't locate data file")
+	}
+
+	return strings.Replace(filename, "get_profile_from_seed.go", "data", 1), nil
 
 }
 
@@ -133,18 +154,18 @@ func getOffsets(seed string, asciiPoints map[string]int) (int, int, int, int, in
 
 }
 
-func getFirstNameFile(gender int, firstNameDeterminingLetter string, region string) string {
+func getFirstNameFile(gender int, firstNameDeterminingLetter string, region string, dataFileLocation string) string {
 
 	var firstNameFile string
 
 	if gender == 1 {
 		log.Println(strings.ToUpper(firstNameDeterminingLetter) + ".txt" + "  Female")
-		firstNameFile = "data/by_region/" + region + "/names/first_names/by_gender/female_" + strings.ToUpper(firstNameDeterminingLetter) + ".txt"
+		firstNameFile = dataFileLocation + "/by_region/" + region + "/names/first_names/female_" + strings.ToUpper(firstNameDeterminingLetter) + ".txt"
 		log.Println(firstNameFile)
 
 	} else {
 		log.Println(strings.ToUpper(firstNameDeterminingLetter) + ".txt" + "  Male")
-		firstNameFile = "data/by_region/" + region + "/names/first_names/by_gender/male_" + strings.ToUpper(firstNameDeterminingLetter) + ".txt"
+		firstNameFile = dataFileLocation + "/by_region/" + region + "/names/first_names/male_" + strings.ToUpper(firstNameDeterminingLetter) + ".txt"
 		log.Println(firstNameFile)
 
 	}
