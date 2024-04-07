@@ -58,6 +58,8 @@ func GetProfileFromSeed(seed string) Profile {
 		fmt.Println(err)
 	}
 
+	fmt.Println(dataFileLocation)
+
 	region := determineRegion(int(seed[0]), regions[:], asciiPoints)
 
 	//gender letter is set to the SECOND letter
