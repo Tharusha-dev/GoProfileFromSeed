@@ -43,9 +43,6 @@ func GetProfileFromSeed(seed string) Profile {
 	asciiPoints["asciiNumberEnds"] = 57
 	asciiPoints["asciiNumberToUpperCaseLetterOffset"] = 17
 
-	const userNameFile = "data/common_templates/usernames.txt"
-	const emailFormatsFile = "data/common_templates/emails.txt"
-
 	regions := [4]string{"US", "UK", "LK", "AUS"}
 
 	// var fnameFile string
@@ -58,7 +55,8 @@ func GetProfileFromSeed(seed string) Profile {
 		fmt.Println(err)
 	}
 
-	fmt.Println(dataFileLocation)
+	userNameFile := dataFileLocation + "/common_templates/usernames.txt"
+	emailFormatsFile := dataFileLocation + "/common_templates/emails.txt"
 
 	region := determineRegion(int(seed[0]), regions[:], asciiPoints)
 
@@ -161,14 +159,11 @@ func getFirstNameFile(gender int, firstNameDeterminingLetter string, region stri
 	var firstNameFile string
 
 	if gender == 1 {
-		log.Println(strings.ToUpper(firstNameDeterminingLetter) + ".txt" + "  Female")
+
 		firstNameFile = dataFileLocation + "/by_region/" + region + "/names/first_names/female_" + strings.ToUpper(firstNameDeterminingLetter) + ".txt"
-		log.Println(firstNameFile)
 
 	} else {
-		log.Println(strings.ToUpper(firstNameDeterminingLetter) + ".txt" + "  Male")
 		firstNameFile = dataFileLocation + "/by_region/" + region + "/names/first_names/male_" + strings.ToUpper(firstNameDeterminingLetter) + ".txt"
-		log.Println(firstNameFile)
 
 	}
 
@@ -177,16 +172,6 @@ func getFirstNameFile(gender int, firstNameDeterminingLetter string, region stri
 }
 
 func getInput(seed string) string {
-
-	// reader := bufio.NewReader(os.Stdin)
-
-	// fmt.Println("Enter seed:")
-
-	// read, err_read := reader.ReadString('\n')
-
-	// if err_read != nil {
-	// 	log.Printf("could not open the file: %v", err_read)
-	// }
 
 	seed = strings.TrimSpace(seed)
 
